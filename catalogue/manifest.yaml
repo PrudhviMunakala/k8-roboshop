@@ -38,6 +38,26 @@ spec:
       containers:
         - name: catalogue
           image: prudhviteja9692/catalogue:1.0.0
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128mi"
+            limits:
+              cpu: "200m"
+              memory: "256mi"
+          readinessProbe:
+            # httpGet:
+            #   path: /health
+            tcpSocket:
+              port: 8080
+            failureThreshold: 2
+            periodSeconds: 10
+            initialDelaySeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+            failureThreshold: 2
+            periodSeconds: 10
           envFrom:
             - configMapRef:
                 name: catalogue
